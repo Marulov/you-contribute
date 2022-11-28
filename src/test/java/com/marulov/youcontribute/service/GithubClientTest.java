@@ -7,6 +7,7 @@ import com.github.tomakehurst.wiremock.core.WireMockConfiguration;
 import com.marulov.youcontribute.client.GithubClient;
 import com.marulov.youcontribute.configuration.GithubProperties;
 import com.marulov.youcontribute.dto.githubClient.GithubIssueResponse;
+import com.marulov.youcontribute.dto.githubClient.IssuesDto;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,6 +43,12 @@ class GithubClientTest {
     @Test
     public void it_should_list_issues() {
         //given
+        IssuesDto issuesDto = IssuesDto.builder()
+                .owner("octocat")
+                .repository("Hello-World")
+                .since(LocalDate.parse("2021-06-01"))
+                .build();
+
         wireMockServer.stubFor(get(urlPathEqualTo("/repos/octocat/Hello-World/issues"))
                 .withQueryParam("since", equalTo("2021-06-01"))
                 .withHeader("Authorization", equalTo("token tokenValue"))
@@ -51,7 +58,7 @@ class GithubClientTest {
         );
 
         //when
-        GithubIssueResponse[] response = githubClient.getAllIssues("octocat", "Hello-World", LocalDate.parse("2021-06-01"));
+        GithubIssueResponse[] response = githubClient.getAllIssues(issuesDto);
 
         //then
         then(response).isNotNull();

@@ -1,6 +1,7 @@
 package com.marulov.youcontribute.client;
 
 import com.marulov.youcontribute.configuration.GithubProperties;
+import com.marulov.youcontribute.dto.githubClient.IssuesDto;
 import com.marulov.youcontribute.dto.githubClient.GithubIssueResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpEntity;
@@ -18,15 +19,16 @@ public class GithubClient {
 
     private final GithubProperties githubProperties;
 
-    public GithubIssueResponse[] getAllIssues(String owner, String repository) {
+    public GithubIssueResponse[] getAllIssues(IssuesDto issuesDto) {
 
-        String issuesUrl = String.format("%s/repos/%s/%s/issues", githubProperties.getApiUrl(), owner, repository);
+        String issuesUrl = String.format("%s/repos/%s/%s/issues?since=%s",
+                githubProperties.getApiUrl(), issuesDto.getOwner(), issuesDto.getRepository(), issuesDto.getSince().toString());
 
         HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.add("Authorization", "token " + githubProperties.getToken());
-        HttpEntity<?> request = new HttpEntity<>(httpHeaders);
+        HttpEntity<?> requestEntity = new HttpEntity<>(httpHeaders);
 
-        ResponseEntity<GithubIssueResponse[]> response = restTemplate.exchange(issuesUrl, HttpMethod.GET, request,
+        ResponseEntity<GithubIssueResponse[]> response = restTemplate.exchange(issuesUrl, HttpMethod.GET, requestEntity,
                 GithubIssueResponse[].class);
 
         return response.getBody();

@@ -1,4 +1,4 @@
-package com.marulov.youcontribute.service;
+package com.marulov.youcontribute.client;
 
 import com.marulov.youcontribute.configuration.GithubProperties;
 import com.marulov.youcontribute.dto.githubClient.GithubIssueResponse;

@@ -3,10 +3,7 @@ package com.marulov.youcontribute.dto.githubClient;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.PropertyNamingStrategies;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
 import java.util.Date;
 import java.util.List;
@@ -41,6 +38,7 @@ public class GithubIssueResponse {
     public Object performedViaGithubApp;
     public Object pullRequest;
 
+    @Data
     public static class User {
         public String login;
         public long id;
@@ -62,6 +60,7 @@ public class GithubIssueResponse {
         public boolean siteAdmin;
     }
 
+    @Data
     public static class Assignee {
         public String login;
         public long id;
@@ -83,6 +82,7 @@ public class GithubIssueResponse {
         public boolean siteAdmin;
     }
 
+    @Data
     public static class Label {
         public long id;
         public String nodeId;

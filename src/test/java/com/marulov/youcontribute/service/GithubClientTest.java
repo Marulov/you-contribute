@@ -8,6 +8,7 @@ import com.marulov.youcontribute.client.GithubClient;
 import com.marulov.youcontribute.configuration.GithubProperties;
 import com.marulov.youcontribute.dto.githubClient.GithubIssueResponse;
 import com.marulov.youcontribute.dto.githubClient.IssuesDto;
+import com.marulov.youcontribute.dto.project.ProjectDto;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,10 +44,9 @@ class GithubClientTest {
     @Test
     public void it_should_list_issues() {
         //given
-        IssuesDto issuesDto = IssuesDto.builder()
-                .owner("octocat")
+        ProjectDto projectDto = ProjectDto.builder()
+                .organization("octocat")
                 .repository("Hello-World")
-                .since(LocalDate.parse("2021-06-01"))
                 .build();
 
         wireMockServer.stubFor(get(urlPathEqualTo("/repos/octocat/Hello-World/issues"))
@@ -58,7 +58,7 @@ class GithubClientTest {
         );
 
         //when
-        GithubIssueResponse[] response = githubClient.getAllIssues(issuesDto);
+        GithubIssueResponse[] response = githubClient.getAllIssues(projectDto, LocalDate.parse("2021-06-01"));
 
         //then
         then(response).isNotNull();

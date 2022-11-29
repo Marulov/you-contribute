@@ -3,6 +3,7 @@ package com.marulov.youcontribute.client;
 import com.marulov.youcontribute.configuration.GithubProperties;
 import com.marulov.youcontribute.dto.githubClient.IssuesDto;
 import com.marulov.youcontribute.dto.githubClient.GithubIssueResponse;
+import com.marulov.youcontribute.dto.project.ProjectDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -10,6 +11,8 @@ import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
+
+import java.time.LocalDate;
 
 @Service
 @RequiredArgsConstructor
@@ -19,10 +22,10 @@ public class GithubClient {
 
     private final GithubProperties githubProperties;
 
-    public GithubIssueResponse[] getAllIssues(IssuesDto issuesDto) {
+    public GithubIssueResponse[] getAllIssues(ProjectDto projectDto, LocalDate date) {
 
         String issuesUrl = String.format("%s/repos/%s/%s/issues?since=%s",
-                githubProperties.getApiUrl(), issuesDto.getOwner(), issuesDto.getRepository(), issuesDto.getSince().toString());
+                githubProperties.getApiUrl(), projectDto.getOrganization(), projectDto.getRepository(), date.toString());
 
         HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.add("Authorization", "token " + githubProperties.getToken());

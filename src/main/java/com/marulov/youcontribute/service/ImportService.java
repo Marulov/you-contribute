@@ -4,6 +4,7 @@ import com.marulov.youcontribute.client.GithubClient;
 import com.marulov.youcontribute.dto.githubClient.IssuesDto;
 import com.marulov.youcontribute.dto.githubClient.GithubIssueResponse;
 import com.marulov.youcontribute.dto.project.CreateProjectRequest;
+import com.marulov.youcontribute.dto.project.ProjectDto;
 import com.marulov.youcontribute.model.Issue;
 import lombok.RequiredArgsConstructor;
 import org.springframework.scheduling.annotation.Async;
@@ -33,11 +34,12 @@ public class ImportService {
     }
 
     @Async
-    public void importIssues(IssuesDto issuesDto) {
-        issuesDto.setSince(LocalDate.from(LocalDateTime
-                .ofInstant(Instant.now().minus(1, ChronoUnit.DAYS), ZoneId.systemDefault())));
+    public void importIssues(ProjectDto projectDto) {
+        LocalDate sinceYesterday = LocalDate.from(LocalDateTime
+                .ofInstant(Instant.now().minus(1, ChronoUnit.DAYS), ZoneId.systemDefault()));
 
-        GithubIssueResponse[] githubIssueResponses = githubClient.getAllIssues(issuesDto);
+        GithubIssueResponse[] githubIssueResponses = githubClient.getAllIssues(projectDto, sinceYesterday);
+
         List<Issue> issues = Arrays.stream(githubIssueResponses).map(githubIssue ->
                         new Issue(githubIssue.getId(), githubIssue.getTitle(), githubIssue.getBody()))
                 .collect(Collectors.toList());

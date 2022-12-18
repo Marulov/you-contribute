@@ -5,6 +5,7 @@ import com.marulov.youcontribute.dto.githubClient.GithubIssueResponse;
 import com.marulov.youcontribute.dto.project.CreateProjectRequest;
 import com.marulov.youcontribute.dto.project.ProjectDto;
 import com.marulov.youcontribute.model.Issue;
+import com.marulov.youcontribute.model.Project;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
@@ -15,6 +16,7 @@ import java.time.*;
 import java.time.temporal.ChronoUnit;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 @Service
@@ -44,8 +46,10 @@ public class ImportService {
 
         GithubIssueResponse[] githubIssueResponses = githubClient.getAllIssues(projectDto, since);
 
-        List<Issue> issues = Arrays.stream(githubIssueResponses).map(githubIssue ->
-                        new Issue(githubIssue.getId(), githubIssue.getTitle(), githubIssue.getBody()))
+        Project project = projectService.getProjectById(projectDto.getId());
+
+        List<Issue> issues = Arrays.stream(githubIssueResponses).filter(githubIssue -> Objects.isNull(githubIssue.getPullRequest()))
+                .map(githubIssue -> new Issue(githubIssue.getId(), project, githubIssue.getTitle(), githubIssue.getBody(), githubIssue.getHtmlUrl()))
                 .collect(Collectors.toList());
 
         issueService.saveAll(issues);

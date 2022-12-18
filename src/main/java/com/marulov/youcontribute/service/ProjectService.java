@@ -5,6 +5,8 @@ import com.marulov.youcontribute.converter.project.ProjectDtoConverter;
 import com.marulov.youcontribute.dto.project.CreateProjectRequest;
 import com.marulov.youcontribute.dto.project.ProjectDto;
 import com.marulov.youcontribute.exception.DuplicatedProjectException;
+import com.marulov.youcontribute.exception.ProjectNotFoundException;
+import com.marulov.youcontribute.model.Project;
 import com.marulov.youcontribute.repository.ProjectRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -26,6 +28,11 @@ public class ProjectService {
 
     public List<ProjectDto> getAll() {
         return projectDtoConverter.convert(projectRepository.findAll());
+    }
+
+    public Project getProjectById(Long id) {
+        return projectRepository.findById(id).orElseThrow(() ->
+                new ProjectNotFoundException(String.format("Project not found by id: %d", id)));
     }
 
     private void projectIfExistValidate(String organization, String repository) {

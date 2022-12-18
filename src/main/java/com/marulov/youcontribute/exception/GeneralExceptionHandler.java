@@ -12,4 +12,9 @@ public class GeneralExceptionHandler {
     public ResponseEntity<?> duplicatedProjectException(DuplicatedProjectException ex) {
         return new ResponseEntity<>(ex.getMessage(), HttpStatus.CONFLICT);
     }
+
+    @ExceptionHandler(ProjectNotFoundException.class)
+    public ResponseEntity<?> projectNotFoundException(ProjectNotFoundException ex) {
+        return new ResponseEntity<>(ex.getMessage(), HttpStatus.NOT_FOUND);
+    }
 }

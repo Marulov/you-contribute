@@ -1,16 +1,13 @@
 package com.marulov.youcontribute.model;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 
 @Entity
 @Table(name = "issues")
 @AllArgsConstructor
-@NoArgsConstructor
+@RequiredArgsConstructor
 @Data
 @Builder
 public class Issue {
@@ -18,6 +15,14 @@ public class Issue {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "project_id")
+    private Project project;
+
     private String title;
+
     private String body;
+
+    private String htmlUrl;
 }

@@ -1,7 +1,6 @@
 package com.marulov.youcontribute.service;
 
 import com.marulov.youcontribute.converter.issue.IssueListDtoConverter;
-import com.marulov.youcontribute.dto.githubClient.IssuesDto;
 import com.marulov.youcontribute.dto.issue.IssuesListDto;
 import com.marulov.youcontribute.model.Issue;
 import com.marulov.youcontribute.repository.IssueRepository;

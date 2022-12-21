@@ -1,7 +1,6 @@
 package com.marulov.youcontribute.client;
 
 import com.marulov.youcontribute.configuration.GithubProperties;
-import com.marulov.youcontribute.dto.githubClient.IssuesDto;
 import com.marulov.youcontribute.dto.githubClient.GithubIssueResponse;
 import com.marulov.youcontribute.dto.project.ProjectDto;
 import lombok.RequiredArgsConstructor;

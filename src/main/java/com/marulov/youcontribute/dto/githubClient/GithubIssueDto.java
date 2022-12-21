@@ -11,7 +11,7 @@ import java.time.LocalDate;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class IssuesDto {
+public class GithubIssueDto {
     private String owner;
     private String repository;
     private LocalDate since;

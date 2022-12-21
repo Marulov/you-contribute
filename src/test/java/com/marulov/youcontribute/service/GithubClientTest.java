@@ -7,7 +7,6 @@ import com.github.tomakehurst.wiremock.core.WireMockConfiguration;
 import com.marulov.youcontribute.client.GithubClient;
 import com.marulov.youcontribute.configuration.GithubProperties;
 import com.marulov.youcontribute.dto.githubClient.GithubIssueResponse;
-import com.marulov.youcontribute.dto.githubClient.IssuesDto;
 import com.marulov.youcontribute.dto.project.ProjectDto;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
